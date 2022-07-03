@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container bg-light border rounded border-2 mt-5 p-2">
+        <h4 class="mb-3 text-center">Vakansiyaların toplanması və paylaşılması üzrə servis.</h4>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="" method="GET">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success mb-1 mx-auto" type="submit"><i class="fas fa-search me-1"></i>Axtar
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h5 class="text-secondary pt-4">Mövcud vakansiyalara baxmaq üçün sahələrdən biri üçün formanı doldurun <br> (şəhər və ya kateqoriya)</h5>
+        </div>
+
+
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            {% for crab in crabs %}
+            <div class="card shadow mt-2">
+                <div class="card-body">
+                    <h4 class="text-primary bg-light border rounded-0 border-1 card-title p-1">{{ crab.title }}</h4>
+                    <h6 class="text-muted card-subtitle mb-2">Şirkət: {{ crab.company }}</h6>
+                    <h6 class="text-muted card-subtitle mb-2">Əmək haqqı: {{ crab.salary }}</h6>
+                    <p class="card-text">{{ crab.description }}</p>
+                    <h6 class="text-muted card-subtitle mb-2">Şəhər: {{ crab.city }} / Kateqoriya: {{ crab.category }}</h6>
+                    <p>{{ crab.create_at|date:'d.m.Y' }}</p>
+                    <a target="_blank" href="{{ crab.url }}" class="btn btn-primary">Ətraflı</a>
+                </div>
+            </div>
+            {% empty %}
+            <h3 class="text-center alert-danger">Axtarış üzrə nəticə tapılmadı!</h3>
+            {% endfor %}
+        </div>
+    </div>
+    <nav class="d-lg-flex justify-content-lg-center mt-5">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}

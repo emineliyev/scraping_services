@@ -1,0 +1,66 @@
+{% load static %}
+<nav class="navbar navbar-light navbar-expand-md shadow py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}"><span
+            class="bs-icon-xl bs-icon-rounded bs-icon-semi-white d-flex justify-content-center align-items-center me-2 bs-icon"><img
+            src="{% static '/img/Logo%20E-tech%20dark.svg' %}"></span></a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav me-auto">
+                <li><a href="{% url 'index' %}" class="nav-link">Əsas səhifə</a></li>
+            </ul>
+            {% if user.is_authenticated %}
+
+            <span class="navbar-text me-2">Salam:
+                {% if not user.first_name and not user.last_name %}
+                <span class="text-primary">İstifadəçi</span>
+                {% else %}
+                <span class="text-primary">{{ user.first_name }} {{ user.last_name }}</span>
+                {% endif %}
+            </span>
+            <a href="{% url 'logout' %}" class="btn btn-light link-danger border rounded border-2 border-danger me-2"
+               role="button">
+                <i class="fas fa-sign-out-alt me-2"></i>Çıxış
+            </a>
+
+            <a href="{% url 'update' %}" class="btn btn-light  border rounded border-2 border-secondary me-2"
+               role="button">
+                <i class="fas fa-cogs me-2"></i>
+            </a>
+
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-light link-primary border rounded border-2 border-primary me-2"
+               role="button">
+                <i class="fas fa-sign-in-alt me-2"></i>Giriş
+            </a>
+
+            <a href="{% url 'register' %}"
+               class="btn btn-light link-success border rounded border-2 border-success me-2" role="button">
+                <i class="fas fa-user-plus me-2"></i>Qeydiyyat
+            </a>
+
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-8 mx-auto mt-3">
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% else %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
