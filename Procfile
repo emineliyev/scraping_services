@@ -1,1 +1,1 @@
-web: gunicorn crab.wsgi
+web: gunicorn mysite.wsgi
