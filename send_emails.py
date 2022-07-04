@@ -40,22 +40,22 @@ if users_dict:
         params['category_id__in'].append(pair[1])
     qs = Vacancy.objects.filter(**params, create_at=today).values()
     vacancies = {}
-    # for i in qs:
-    #     vacancies.setdefault((i['city_id'], i['category_id']), [])
-    #     vacancies[(i['city_id'], i['category_id'])].append(i)
-    # for keys, emails in users_dict.items():
-    #     rows = vacancies.get(keys, [])
-    #     html = ''
-    #     for row in rows:
-    #         html += f'<h4><a target="_blank" href="{ row["url"] }" class="btn btn-primary">{ row["title"] }</a></h4>'
-    #         html += f'<p>{row["description"]}</p>'
-    #         html += f'<p>{row["company"]}</p><br><hr>'
-    #     _html = html if html else empty
-    #     for email in emails:
-    #         to = email
-    #         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-    #         msg.attach_alternative(_html, "text/html")
-    #         msg.send()
+    for i in qs:
+        vacancies.setdefault((i['city_id'], i['category_id']), [])
+        vacancies[(i['city_id'], i['category_id'])].append(i)
+    for keys, emails in users_dict.items():
+        rows = vacancies.get(keys, [])
+        html = ''
+        for row in rows:
+            html += f'<h4><a target="_blank" href="{ row["url"] }" class="btn btn-primary">{ row["title"] }</a></h4>'
+            html += f'<p>{row["description"]}</p>'
+            html += f'<p>{row["company"]}</p><br><hr>'
+        _html = html if html else empty
+        for email in emails:
+            to = email
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(_html, "text/html")
+            msg.send()
 
 qs = Error.objects.filter(create_at=today)
 subject = ''
