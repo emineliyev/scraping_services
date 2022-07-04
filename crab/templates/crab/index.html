@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container bg-light border rounded border-2 mt-5 p-2">
-        <h4 class="mb-3 text-center">Vakansiyaların toplanması və paylaşılması üzrə servis.</h4>
+    <h4 class="mb-3 text-center">Vakansiyaların toplanması və paylaşılması üzrə servis.</h4>
     <hr>
     <div class="row">
         <div class="col-md-6">
@@ -13,7 +13,8 @@
             </form>
         </div>
         <div class="col-md-6">
-            <h5 class="text-secondary pt-4">Mövcud vakansiyalara baxmaq üçün sahələrdən biri üçün formanı doldurun <br> (şəhər və ya kateqoriya)</h5>
+            <h5 class="text-secondary pt-4">Mövcud vakansiyalara baxmaq üçün sahələrdən biri üçün formanı doldurun <br>
+                (şəhər və ya kateqoriya)</h5>
         </div>
 
 
@@ -24,6 +25,7 @@
         <div class="col-md-12">
             {% for crab in crabs %}
             <div class="card shadow mt-2">
+
                 <div class="card-body">
                     <h4 class="text-primary bg-light border rounded-0 border-1 card-title p-1">{{ crab.title }}</h4>
                     <h6 class="text-muted card-subtitle mb-2">Şirkət: {{ crab.company }}</h6>
@@ -39,18 +41,27 @@
             {% endfor %}
         </div>
     </div>
-    <nav class="d-lg-flex justify-content-lg-center mt-5">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a>
+    {% if crabs %}
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center mt-5">
+            {% if crabs.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?city={{ city }}&category={{ category }}&page={{ crabs.previous_page_number }}" tabindex="-1" aria-disabled="true">Geri</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a>
+            {% endif %}
+
+            {% for page in crabs.paginator.page_range %}
+            <li class="page-item {% if page == crabs.number %}active{% endif %} "><a class="page-link" href="?city={{ city }}&category={{ category }}&page={{page}}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if crabs.has_next %}
+
+            <li class="page-item">
+                <a class="page-link" href="?city={{ city }}&category={{ category }}&page={{ crabs.next_page_number}}">İrəli</a>
             </li>
+            {% endif %}
         </ul>
     </nav>
+    {% endif %}
 </div>
 {% endblock %}

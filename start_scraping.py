@@ -64,13 +64,6 @@ tmp_task = [(func, data['url_data'][key], data['city'], data['category'])
 
 tasks = asyncio.wait([loop.create_task(func_main(f)) for f in tmp_task])
 
-# for data in url_list:
-#     for func, key in parser:
-#         url = data['url_data'][key]
-#         j, e = func(url, city=data['city'], category=data['category'])
-#         jobs += j
-#         errors += e
-
 loop.run_until_complete(tasks)
 loop.close()
 for job in jobs:
@@ -89,6 +82,3 @@ if errors:
     else:
         error = Error(data=f'errors: {errors}').save()
 
-# h = codecs.open('work.txt', 'w', 'utf-8')
-# h.write(str(jobs))
-# h.close()

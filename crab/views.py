@@ -1,25 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import ListView, FormView
-
+from django.core.paginator import Paginator
 from .forms import FindForm
 from .models import Vacancy
-
-
-# class IndexView(ListView):
-#     model = Vacancy
-#     template_name = 'crab/index.html'
-#     context_object_name = 'crabs'
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         return context
 
 
 def index(request):
     form = FindForm
     city = request.GET.get('city')
     category = request.GET.get('category')
-    crabs = []
+    context = {'city': city, 'category': category, 'form': form}
     if city or category:
         _filter = {}
         if city:
@@ -28,11 +17,11 @@ def index(request):
             _filter['category__slug'] = category
 
         crabs = Vacancy.objects.filter(**_filter)
-    context = {
-        'crabs': crabs,
-        'form': form
-    }
-    return render(request, 'crab/index.html', context=context)
+        paginator = Paginator(crabs, 7)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+        context['crabs'] = page_obj
+    return render(request, 'crab/index.html', context)
 
 
 
